@@ -23,6 +23,37 @@
 </head>
 
 <body id=" wrapper">
+    
+    <?php
+// Database instellingen
+$database_adres = 'localhost';
+$database_login_naam = 'pi';
+$database_login_wachtwoord = 'raspberry';
+$database_naam = "pompoen";
+
+$conn = mysqli_connect($database_adres, $database_login_naam, $database_login_wachtwoord, $database_naam);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+ 
+$sql = "SELECT * FROM pompoen_data";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $temp = $row["temperatuur"];
+        $vochtigheid = $row["vochtigheid"];
+        $grondvochtigheid = $row["grondvochtigheid"];
+        $licht = $row["licht"];
+        $tempw = $row["temperatuurWater"];
+        $hoeveelheidWater = $row["hoeveelheidWater"]
+    }
+} else {
+    echo "0 results";
+}
+ ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -55,34 +86,23 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="instellen.html">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>instellen</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="lamp.html">Verlichting</a>
-                        <a class="collapse-item" href="raam.html">Verluchting</a>
-                        <a class="collapse-item" href="water.html">Water geven</a>
-                    </div>
-                </div>
+
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="opties.html">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Opties</span>
+                </a>
+
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Opties</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="temperatuur.html">Max temperatuur</a>
-                        <a class="collapse-item" href="vochtigheid.html">Min vochtigheid</a>
-                    </div>
-                </div>
-            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -169,7 +189,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Temperatuur (lucht)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">20,00</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $temp ?>°C</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-temperature-low fa-2x text-black-100"></i>
@@ -186,7 +206,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Luchtvochtigheid</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">45%</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $vochtigheid ?>°C</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-cloud-sun-rain fa-2x text-black"></i>
@@ -203,10 +223,10 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Lichtinval</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">45%</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $licht ?>lumen</div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fa fa-lightbulb-o fa-2x text-black"></i>
+                                                <i class="far fa-lightbulb fa-2x text-black"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +240,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">temperatuur water</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">18 graden</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $tempw ?>°C</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-temperature-low fa-2x text-black-300"></i>
@@ -236,7 +256,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Hoeveelheid gegeven water</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">20,00</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $hoeveelheidWater ?>°C</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-tint fa-2x text-black-100"></i>
@@ -252,7 +272,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-black text-uppercase mb-1">grondvochtigheid</div>
-                                                <div class="h5 mb-0 font-weight-bold text-black">20,00</div>
+                                                <div class="h5 mb-0 font-weight-bold text-black"><?php echo $grondvochtigheid ?>°C</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-water fa-2x text-black-100"></i>
